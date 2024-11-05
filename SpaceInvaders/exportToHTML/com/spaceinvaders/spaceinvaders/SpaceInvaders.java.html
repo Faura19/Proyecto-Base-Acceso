@@ -1,0 +1,254 @@
+<html>
+<head>
+<title>SpaceInvaders.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cf8e6d;}
+.s1 { color: #bcbec4;}
+.s2 { color: #bcbec4;}
+.s3 { color: #7a7e85;}
+.s4 { color: #2aacb8;}
+.s5 { color: #6aab73;}
+</style>
+</head>
+<body bgcolor="#1e1f22">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+SpaceInvaders.java</font>
+</center></td></tr></table>
+<pre><span class="s0">package </span><span class="s1">com</span><span class="s2">.</span><span class="s1">spaceinvaders</span><span class="s2">.</span><span class="s1">spaceinvaders</span><span class="s2">;</span>
+
+<span class="s0">import </span><span class="s1">java</span><span class="s2">.</span><span class="s1">io</span><span class="s2">.</span><span class="s1">File</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">java</span><span class="s2">.</span><span class="s1">io</span><span class="s2">.</span><span class="s1">IOException</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">java</span><span class="s2">.</span><span class="s1">util</span><span class="s2">.</span><span class="s1">ArrayList</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">java</span><span class="s2">.</span><span class="s1">util</span><span class="s2">.</span><span class="s1">List</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">java</span><span class="s2">.</span><span class="s1">util</span><span class="s2">.</span><span class="s1">Random</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">java</span><span class="s2">.</span><span class="s1">util</span><span class="s2">.</span><span class="s1">stream</span><span class="s2">.</span><span class="s1">IntStream</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">javafx</span><span class="s2">.</span><span class="s1">animation</span><span class="s2">.</span><span class="s1">KeyFrame</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">javafx</span><span class="s2">.</span><span class="s1">animation</span><span class="s2">.</span><span class="s1">Timeline</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">javafx</span><span class="s2">.</span><span class="s1">application</span><span class="s2">.</span><span class="s1">Application</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">javafx</span><span class="s2">.</span><span class="s1">application</span><span class="s2">.</span><span class="s1">Platform</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">javafx</span><span class="s2">.</span><span class="s1">scene</span><span class="s2">.</span><span class="s1">Cursor</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">javafx</span><span class="s2">.</span><span class="s1">scene</span><span class="s2">.</span><span class="s1">Scene</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">javafx</span><span class="s2">.</span><span class="s1">scene</span><span class="s2">.</span><span class="s1">canvas</span><span class="s2">.</span><span class="s1">Canvas</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">javafx</span><span class="s2">.</span><span class="s1">scene</span><span class="s2">.</span><span class="s1">canvas</span><span class="s2">.</span><span class="s1">GraphicsContext</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">javafx</span><span class="s2">.</span><span class="s1">scene</span><span class="s2">.</span><span class="s1">image</span><span class="s2">.</span><span class="s1">Image</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">javafx</span><span class="s2">.</span><span class="s1">scene</span><span class="s2">.</span><span class="s1">input</span><span class="s2">.</span><span class="s1">KeyCode</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">javafx</span><span class="s2">.</span><span class="s1">scene</span><span class="s2">.</span><span class="s1">layout</span><span class="s2">.</span><span class="s1">StackPane</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">javafx</span><span class="s2">.</span><span class="s1">scene</span><span class="s2">.</span><span class="s1">paint</span><span class="s2">.</span><span class="s1">Color</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">javafx</span><span class="s2">.</span><span class="s1">scene</span><span class="s2">.</span><span class="s1">text</span><span class="s2">.</span><span class="s1">Font</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">javafx</span><span class="s2">.</span><span class="s1">scene</span><span class="s2">.</span><span class="s1">text</span><span class="s2">.</span><span class="s1">TextAlignment</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">javafx</span><span class="s2">.</span><span class="s1">stage</span><span class="s2">.</span><span class="s1">Stage</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">javafx</span><span class="s2">.</span><span class="s1">util</span><span class="s2">.</span><span class="s1">Duration</span><span class="s2">;</span>
+
+<span class="s0">import </span><span class="s1">javax</span><span class="s2">.</span><span class="s1">sound</span><span class="s2">.</span><span class="s1">sampled</span><span class="s2">.*;</span>
+<span class="s0">import </span><span class="s1">javax</span><span class="s2">.</span><span class="s1">sound</span><span class="s2">.</span><span class="s1">sampled</span><span class="s2">.</span><span class="s1">AudioInputStream</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">javax</span><span class="s2">.</span><span class="s1">sound</span><span class="s2">.</span><span class="s1">sampled</span><span class="s2">.</span><span class="s1">AudioSystem</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">javax</span><span class="s2">.</span><span class="s1">sound</span><span class="s2">.</span><span class="s1">sampled</span><span class="s2">.</span><span class="s1">Clip</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">javax</span><span class="s2">.</span><span class="s1">sound</span><span class="s2">.</span><span class="s1">sampled</span><span class="s2">.</span><span class="s1">UnsupportedAudioFileException</span><span class="s2">;</span>
+
+<span class="s0">public class </span><span class="s1">SpaceInvaders </span><span class="s0">extends </span><span class="s1">Application </span><span class="s2">{</span>
+
+	<span class="s0">private </span><span class="s1">Clip clip</span><span class="s2">;</span>
+	<span class="s3">// Variables</span>
+	<span class="s0">static final </span><span class="s1">Random RAND </span><span class="s2">= </span><span class="s0">new </span><span class="s1">Random</span><span class="s2">();</span>
+	<span class="s0">static final int </span><span class="s1">WIDTH </span><span class="s2">= </span><span class="s4">800</span><span class="s2">;</span>
+	<span class="s0">static final int </span><span class="s1">HEIGHT </span><span class="s2">= </span><span class="s4">600</span><span class="s2">;</span>
+	<span class="s0">static final int </span><span class="s1">PLAYER_SIZE </span><span class="s2">= </span><span class="s4">60</span><span class="s2">;</span>
+	<span class="s0">static final </span><span class="s1">Image PLAYER_IMG </span><span class="s2">= </span><span class="s0">new </span><span class="s1">Image</span><span class="s2">(</span><span class="s5">&quot;file:images/player.png&quot;</span><span class="s2">);</span>
+	<span class="s0">static final </span><span class="s1">Image EXPLOSION_IMG </span><span class="s2">= </span><span class="s0">new </span><span class="s1">Image</span><span class="s2">(</span><span class="s5">&quot;file:images/explosion.png&quot;</span><span class="s2">);</span>
+	<span class="s0">static final int </span><span class="s1">EXPLOSION_W </span><span class="s2">= </span><span class="s4">128</span><span class="s2">;</span>
+	<span class="s0">static final int </span><span class="s1">EXPLOSION_ROWS </span><span class="s2">= </span><span class="s4">3</span><span class="s2">;</span>
+	<span class="s0">static final int </span><span class="s1">EXPLOSION_COL </span><span class="s2">= </span><span class="s4">3</span><span class="s2">;</span>
+	<span class="s0">static final int </span><span class="s1">EXPLOSION_H </span><span class="s2">= </span><span class="s4">128</span><span class="s2">;</span>
+	<span class="s0">static final int </span><span class="s1">EXPLOSION_STEPS </span><span class="s2">= </span><span class="s4">15</span><span class="s2">;</span>
+	<span class="s0">static </span><span class="s1">GraphicsContext gc</span><span class="s2">;</span>
+	
+	<span class="s0">static final </span><span class="s1">Image BOMBS_IMG</span><span class="s2">[] = {</span>
+			<span class="s0">new </span><span class="s1">Image</span><span class="s2">(</span><span class="s5">&quot;file:images/1.png&quot;</span><span class="s2">),</span>
+			<span class="s0">new </span><span class="s1">Image</span><span class="s2">(</span><span class="s5">&quot;file:images/2.png&quot;</span><span class="s2">),</span>
+			<span class="s0">new </span><span class="s1">Image</span><span class="s2">(</span><span class="s5">&quot;file:images/3.png&quot;</span><span class="s2">),</span>
+			<span class="s0">new </span><span class="s1">Image</span><span class="s2">(</span><span class="s5">&quot;file:images/4.png&quot;</span><span class="s2">),</span>
+			<span class="s0">new </span><span class="s1">Image</span><span class="s2">(</span><span class="s5">&quot;file:images/5.png&quot;</span><span class="s2">),</span>
+			<span class="s0">new </span><span class="s1">Image</span><span class="s2">(</span><span class="s5">&quot;file:images/6.png&quot;</span><span class="s2">),</span>
+			<span class="s0">new </span><span class="s1">Image</span><span class="s2">(</span><span class="s5">&quot;file:images/7.png&quot;</span><span class="s2">),</span>
+			<span class="s0">new </span><span class="s1">Image</span><span class="s2">(</span><span class="s5">&quot;file:images/8.png&quot;</span><span class="s2">),</span>
+			<span class="s0">new </span><span class="s1">Image</span><span class="s2">(</span><span class="s5">&quot;file:images/9.png&quot;</span><span class="s2">),</span>
+			<span class="s0">new </span><span class="s1">Image</span><span class="s2">(</span><span class="s5">&quot;file:images/10.png&quot;</span><span class="s2">),</span>
+	<span class="s2">};</span>
+	<span class="s0">final int </span><span class="s1">MAX_BOMBS </span><span class="s2">= </span><span class="s4">10</span><span class="s2">,  </span><span class="s1">MAX_SHOTS </span><span class="s2">= </span><span class="s1">MAX_BOMBS </span><span class="s2">* </span><span class="s4">2</span><span class="s2">;</span>
+	<span class="s0">boolean </span><span class="s1">gameOver </span><span class="s2">= </span><span class="s0">false</span><span class="s2">;</span>
+
+	<span class="s0">static </span><span class="s1">Rocket player</span><span class="s2">;</span>
+	<span class="s1">List</span><span class="s2">&lt;</span><span class="s1">Shot</span><span class="s2">&gt; </span><span class="s1">shots</span><span class="s2">;</span>
+	<span class="s1">List</span><span class="s2">&lt;</span><span class="s1">Universe</span><span class="s2">&gt; </span><span class="s1">univ</span><span class="s2">;</span>
+	<span class="s1">List</span><span class="s2">&lt;</span><span class="s1">Bomb</span><span class="s2">&gt; </span><span class="s1">Bombs</span><span class="s2">;</span>
+	
+	<span class="s0">private double </span><span class="s1">mouseX</span><span class="s2">;</span>
+
+	<span class="s3">// Start</span>
+	<span class="s0">public void </span><span class="s1">start</span><span class="s2">(</span><span class="s1">Stage stage</span><span class="s2">) </span><span class="s0">throws </span><span class="s1">Exception </span><span class="s2">{</span>
+		<span class="s1">Canvas canvas </span><span class="s2">= </span><span class="s0">new </span><span class="s1">Canvas</span><span class="s2">(</span><span class="s1">WIDTH</span><span class="s2">, </span><span class="s1">HEIGHT</span><span class="s2">);</span>
+		<span class="s1">gc </span><span class="s2">= </span><span class="s1">canvas</span><span class="s2">.</span><span class="s1">getGraphicsContext2D</span><span class="s2">();</span>
+		<span class="s1">Timeline timeline </span><span class="s2">= </span><span class="s0">new </span><span class="s1">Timeline</span><span class="s2">(</span><span class="s0">new </span><span class="s1">KeyFrame</span><span class="s2">(</span><span class="s1">Duration</span><span class="s2">.</span><span class="s1">millis</span><span class="s2">(</span><span class="s4">100</span><span class="s2">), </span><span class="s1">e -&gt; run</span><span class="s2">(</span><span class="s1">gc</span><span class="s2">)));</span>
+		<span class="s1">timeline</span><span class="s2">.</span><span class="s1">setCycleCount</span><span class="s2">(</span><span class="s1">Timeline</span><span class="s2">.</span><span class="s1">INDEFINITE</span><span class="s2">);</span>
+		<span class="s1">timeline</span><span class="s2">.</span><span class="s1">play</span><span class="s2">();</span>
+		<span class="s1">canvas</span><span class="s2">.</span><span class="s1">setCursor</span><span class="s2">(</span><span class="s1">Cursor</span><span class="s2">.</span><span class="s1">MOVE</span><span class="s2">);</span>
+
+		<span class="s1">canvas</span><span class="s2">.</span><span class="s1">setOnMouseMoved</span><span class="s2">(</span><span class="s1">e -&gt; mouseX </span><span class="s2">= </span><span class="s1">e</span><span class="s2">.</span><span class="s1">getX</span><span class="s2">());</span>
+		<span class="s1">canvas</span><span class="s2">.</span><span class="s1">setOnMouseClicked</span><span class="s2">(</span><span class="s1">e -&gt; </span><span class="s2">{</span>
+			<span class="s0">if</span><span class="s2">(</span><span class="s1">shots</span><span class="s2">.</span><span class="s1">size</span><span class="s2">() &lt; </span><span class="s1">MAX_SHOTS</span><span class="s2">) </span><span class="s1">shots</span><span class="s2">.</span><span class="s1">add</span><span class="s2">(</span><span class="s1">player</span><span class="s2">.</span><span class="s1">shoot</span><span class="s2">());</span>
+			<span class="s0">if</span><span class="s2">(</span><span class="s1">gameOver</span><span class="s2">) {</span>
+				<span class="s1">gameOver </span><span class="s2">= </span><span class="s0">false</span><span class="s2">;</span>
+				<span class="s1">setup</span><span class="s2">();</span>
+			<span class="s2">}</span>
+		<span class="s2">});</span>
+		<span class="s1">setup</span><span class="s2">();</span>
+
+		<span class="s1">String cancion1</span><span class="s2">=</span><span class="s5">&quot;src/clip-1-muzica-pentru-reclame-&quot; </span><span class="s2">+</span>
+				<span class="s5">&quot;film-calitate-24-biti-fisier&quot; </span><span class="s2">+</span>
+				<span class="s5">&quot;-audio-wav-viteza-124-bpm-durata-105-min-90.wav&quot;</span><span class="s2">;</span>
+
+		<span class="s1">String cancion2</span><span class="s2">=</span><span class="s5">&quot;src/clip-2-muzica-pentru-reclama-film-24-biti-wav-120-bpm-9013.wav&quot;</span><span class="s2">;</span>
+
+		<span class="s1">HiloMusical hiloMusical</span><span class="s2">=</span><span class="s0">new </span><span class="s1">HiloMusical</span><span class="s2">(</span><span class="s1">cancion1</span><span class="s2">,</span><span class="s1">cancion2</span><span class="s2">);</span>
+		<span class="s1">hiloMusical</span><span class="s2">.</span><span class="s1">reproducirMusica</span><span class="s2">(</span><span class="s1">cancion1</span><span class="s2">,</span><span class="s1">cancion2</span><span class="s2">);</span>
+
+		<span class="s1">Scene scene</span><span class="s2">=</span><span class="s0">new </span><span class="s1">Scene</span><span class="s2">(</span><span class="s0">new </span><span class="s1">StackPane</span><span class="s2">(</span><span class="s1">canvas</span><span class="s2">));</span>
+		<span class="s1">scene</span><span class="s2">.</span><span class="s1">setOnKeyPressed</span><span class="s2">(</span><span class="s1">event-&gt;</span><span class="s2">{</span>
+			<span class="s0">if</span><span class="s2">(</span><span class="s1">event</span><span class="s2">.</span><span class="s1">getCode</span><span class="s2">()==</span><span class="s1">KeyCode</span><span class="s2">.</span><span class="s1">X</span><span class="s2">){</span>
+				<span class="s1">hiloMusical</span><span class="s2">.</span><span class="s1">detenerMusica</span><span class="s2">();</span>
+				<span class="s1">Platform</span><span class="s2">.</span><span class="s1">exit</span><span class="s2">();</span>
+			<span class="s2">}</span>
+
+			<span class="s0">if </span><span class="s2">(</span><span class="s1">event</span><span class="s2">.</span><span class="s1">getCode</span><span class="s2">()==</span><span class="s1">KeyCode</span><span class="s2">.</span><span class="s1">P</span><span class="s2">){</span>
+				<span class="s1">hiloMusical</span><span class="s2">.</span><span class="s1">detenerMusica</span><span class="s2">();</span>
+			<span class="s2">}</span>
+
+
+		<span class="s2">});</span>
+
+		<span class="s1">stage</span><span class="s2">.</span><span class="s1">setScene</span><span class="s2">(</span><span class="s1">scene</span><span class="s2">);</span>
+		<span class="s1">stage</span><span class="s2">.</span><span class="s1">setTitle</span><span class="s2">(</span><span class="s5">&quot;Space Invaders&quot;</span><span class="s2">);</span>
+		<span class="s1">stage</span><span class="s2">.</span><span class="s1">show</span><span class="s2">();</span>
+
+	<span class="s2">}</span>
+
+	<span class="s3">// Setup the game, only executed once</span>
+	<span class="s0">private void </span><span class="s1">setup</span><span class="s2">() {</span>
+		<span class="s1">univ </span><span class="s2">= </span><span class="s0">new </span><span class="s1">ArrayList</span><span class="s2">&lt;&gt;();</span>
+		<span class="s1">shots </span><span class="s2">= </span><span class="s0">new </span><span class="s1">ArrayList</span><span class="s2">&lt;&gt;();</span>
+		<span class="s1">Bombs </span><span class="s2">= </span><span class="s0">new </span><span class="s1">ArrayList</span><span class="s2">&lt;&gt;();</span>
+		<span class="s1">player </span><span class="s2">= </span><span class="s0">new </span><span class="s1">Rocket</span><span class="s2">(</span><span class="s1">WIDTH </span><span class="s2">/ </span><span class="s4">2</span><span class="s2">, </span><span class="s1">HEIGHT </span><span class="s2">- </span><span class="s1">PLAYER_SIZE</span><span class="s2">, </span><span class="s1">PLAYER_SIZE</span><span class="s2">);</span>
+		<span class="s1">player</span><span class="s2">.</span><span class="s1">score </span><span class="s2">= </span><span class="s4">0</span><span class="s2">;</span>
+		<span class="s1">IntStream</span><span class="s2">.</span><span class="s1">range</span><span class="s2">(</span><span class="s4">0</span><span class="s2">, </span><span class="s1">MAX_BOMBS</span><span class="s2">).</span><span class="s1">mapToObj</span><span class="s2">(</span><span class="s1">i -&gt; </span><span class="s0">this</span><span class="s2">.</span><span class="s1">newBomb</span><span class="s2">()).</span><span class="s1">forEach</span><span class="s2">(</span><span class="s1">Bombs::add</span><span class="s2">);</span>
+	<span class="s2">}</span>
+
+	<span class="s0">private void </span><span class="s1">playMusic</span><span class="s2">(){</span>
+
+		<span class="s3">/* 
+        try { 
+            File archivoSonido=new File(&quot;src/clip-1-muzica-pentru-reclame-film-&quot; + 
+                    &quot;calitate-24-biti-fisier-audio-wav-viteza-124-bpm-durata-105-min-90.wav&quot;); 
+            AudioInputStream audioInputStream= AudioSystem.getAudioInputStream(archivoSonido); 
+            clip= AudioSystem.getClip(); 
+            clip.open(audioInputStream); 
+ 
+            clip.start(); 
+ 
+            Scene scene=new Scene(); 
+            scene.setOnKeyPressed(event-&gt;{ 
+                if(event.getCode()==KeyCode.X){ 
+                    clip.stop(); 
+                } 
+ 
+            }); 
+ 
+ 
+        } catch (UnsupportedAudioFileException e) { 
+            throw new RuntimeException(e); 
+        }catch (LineUnavailableException e) { 
+            throw new RuntimeException(e); 
+        } catch (IOException e) { 
+            throw new RuntimeException(e); 
+        } 
+         */</span>
+
+    <span class="s2">}</span>
+
+
+	<span class="s3">// Run graphics</span>
+	<span class="s0">private void </span><span class="s1">run</span><span class="s2">(</span><span class="s1">GraphicsContext gc</span><span class="s2">) {</span>
+		<span class="s1">gc</span><span class="s2">.</span><span class="s1">setFill</span><span class="s2">(</span><span class="s1">Color</span><span class="s2">.</span><span class="s1">grayRgb</span><span class="s2">(</span><span class="s4">20</span><span class="s2">));</span>
+		<span class="s1">gc</span><span class="s2">.</span><span class="s1">fillRect</span><span class="s2">(</span><span class="s4">0</span><span class="s2">, </span><span class="s4">0</span><span class="s2">, </span><span class="s1">WIDTH</span><span class="s2">, </span><span class="s1">HEIGHT</span><span class="s2">);</span>
+		<span class="s1">gc</span><span class="s2">.</span><span class="s1">setTextAlign</span><span class="s2">(</span><span class="s1">TextAlignment</span><span class="s2">.</span><span class="s1">CENTER</span><span class="s2">);</span>
+		<span class="s1">gc</span><span class="s2">.</span><span class="s1">setFont</span><span class="s2">(</span><span class="s1">Font</span><span class="s2">.</span><span class="s1">font</span><span class="s2">(</span><span class="s4">20</span><span class="s2">));</span>
+		<span class="s1">gc</span><span class="s2">.</span><span class="s1">setFill</span><span class="s2">(</span><span class="s1">Color</span><span class="s2">.</span><span class="s1">WHITE</span><span class="s2">);</span>
+		<span class="s1">gc</span><span class="s2">.</span><span class="s1">fillText</span><span class="s2">(</span><span class="s5">&quot;Score: &quot; </span><span class="s2">+ </span><span class="s1">player</span><span class="s2">.</span><span class="s1">score</span><span class="s2">, </span><span class="s4">60</span><span class="s2">,  </span><span class="s4">20</span><span class="s2">);</span>
+		
+		<span class="s0">if</span><span class="s2">(</span><span class="s1">gameOver</span><span class="s2">) {</span>
+			<span class="s1">gc</span><span class="s2">.</span><span class="s1">setFont</span><span class="s2">(</span><span class="s1">Font</span><span class="s2">.</span><span class="s1">font</span><span class="s2">(</span><span class="s4">35</span><span class="s2">));</span>
+			<span class="s1">gc</span><span class="s2">.</span><span class="s1">setFill</span><span class="s2">(</span><span class="s1">Color</span><span class="s2">.</span><span class="s1">YELLOW</span><span class="s2">);</span>
+			<span class="s1">gc</span><span class="s2">.</span><span class="s1">fillText</span><span class="s2">(</span><span class="s5">&quot;Game Over </span><span class="s0">\n </span><span class="s5">Your Score is: &quot; </span><span class="s2">+ </span><span class="s1">player</span><span class="s2">.</span><span class="s1">score </span><span class="s2">+ </span><span class="s5">&quot; </span><span class="s0">\n </span><span class="s5">Click to play again&quot;</span><span class="s2">, </span><span class="s1">WIDTH </span><span class="s2">/ </span><span class="s4">2</span><span class="s2">, </span><span class="s1">HEIGHT </span><span class="s2">/</span><span class="s4">2.5</span><span class="s2">);</span>
+		<span class="s3">//  return;</span>
+		<span class="s2">}</span>
+		<span class="s1">univ</span><span class="s2">.</span><span class="s1">forEach</span><span class="s2">(</span><span class="s1">Universe::draw</span><span class="s2">);</span>
+		<span class="s1">player</span><span class="s2">.</span><span class="s1">update</span><span class="s2">();</span>
+		<span class="s1">player</span><span class="s2">.</span><span class="s1">draw</span><span class="s2">();</span>
+		<span class="s1">player</span><span class="s2">.</span><span class="s1">posX </span><span class="s2">= (</span><span class="s0">int</span><span class="s2">) </span><span class="s1">mouseX</span><span class="s2">;</span>
+		
+		<span class="s1">Bombs</span><span class="s2">.</span><span class="s1">stream</span><span class="s2">().</span><span class="s1">peek</span><span class="s2">(</span><span class="s1">Rocket::update</span><span class="s2">).</span><span class="s1">peek</span><span class="s2">(</span><span class="s1">Rocket::draw</span><span class="s2">).</span><span class="s1">forEach</span><span class="s2">(</span><span class="s1">e -&gt; </span><span class="s2">{</span>
+			<span class="s0">if</span><span class="s2">(</span><span class="s1">player</span><span class="s2">.</span><span class="s1">colide</span><span class="s2">(</span><span class="s1">e</span><span class="s2">) &amp;&amp; !</span><span class="s1">player</span><span class="s2">.</span><span class="s1">exploding</span><span class="s2">) {</span>
+				<span class="s1">player</span><span class="s2">.</span><span class="s1">explode</span><span class="s2">();</span>
+			<span class="s2">}</span>
+		<span class="s2">});</span>
+		
+		<span class="s0">for </span><span class="s2">(</span><span class="s0">int </span><span class="s1">i </span><span class="s2">= </span><span class="s1">shots</span><span class="s2">.</span><span class="s1">size</span><span class="s2">() - </span><span class="s4">1</span><span class="s2">; </span><span class="s1">i </span><span class="s2">&gt;=</span><span class="s4">0 </span><span class="s2">; </span><span class="s1">i</span><span class="s2">--) {</span>
+			<span class="s1">Shot shot </span><span class="s2">= </span><span class="s1">shots</span><span class="s2">.</span><span class="s1">get</span><span class="s2">(</span><span class="s1">i</span><span class="s2">);</span>
+			<span class="s0">if</span><span class="s2">(</span><span class="s1">shot</span><span class="s2">.</span><span class="s1">posY </span><span class="s2">&lt; </span><span class="s4">0 </span><span class="s2">|| </span><span class="s1">shot</span><span class="s2">.</span><span class="s1">toRemove</span><span class="s2">)  { </span>
+				<span class="s1">shots</span><span class="s2">.</span><span class="s1">remove</span><span class="s2">(</span><span class="s1">i</span><span class="s2">);</span>
+				<span class="s0">continue</span><span class="s2">;</span>
+			<span class="s2">}</span>
+			<span class="s1">shot</span><span class="s2">.</span><span class="s1">update</span><span class="s2">();</span>
+			<span class="s1">shot</span><span class="s2">.</span><span class="s1">draw</span><span class="s2">();</span>
+			<span class="s0">for </span><span class="s2">(</span><span class="s1">Bomb bomb </span><span class="s2">: </span><span class="s1">Bombs</span><span class="s2">) {</span>
+				<span class="s0">if</span><span class="s2">(</span><span class="s1">shot</span><span class="s2">.</span><span class="s1">colide</span><span class="s2">(</span><span class="s1">bomb</span><span class="s2">) &amp;&amp; !</span><span class="s1">bomb</span><span class="s2">.</span><span class="s1">exploding</span><span class="s2">) {</span>
+					<span class="s1">player</span><span class="s2">.</span><span class="s1">score</span><span class="s2">++;</span>
+					<span class="s1">bomb</span><span class="s2">.</span><span class="s1">explode</span><span class="s2">();</span>
+					<span class="s1">shot</span><span class="s2">.</span><span class="s1">toRemove </span><span class="s2">= </span><span class="s0">true</span><span class="s2">;</span>
+				<span class="s2">}</span>
+			<span class="s2">}</span>
+		<span class="s2">}</span>
+		
+		<span class="s0">for </span><span class="s2">(</span><span class="s0">int </span><span class="s1">i </span><span class="s2">= </span><span class="s1">Bombs</span><span class="s2">.</span><span class="s1">size</span><span class="s2">() - </span><span class="s4">1</span><span class="s2">; </span><span class="s1">i </span><span class="s2">&gt;= </span><span class="s4">0</span><span class="s2">; </span><span class="s1">i</span><span class="s2">--){  </span>
+			<span class="s0">if</span><span class="s2">(</span><span class="s1">Bombs</span><span class="s2">.</span><span class="s1">get</span><span class="s2">(</span><span class="s1">i</span><span class="s2">).</span><span class="s1">destroyed</span><span class="s2">)  {</span>
+				<span class="s1">Bombs</span><span class="s2">.</span><span class="s1">set</span><span class="s2">(</span><span class="s1">i</span><span class="s2">, </span><span class="s1">newBomb</span><span class="s2">());</span>
+			<span class="s2">}</span>
+		<span class="s2">}</span>
+	
+		<span class="s1">gameOver </span><span class="s2">= </span><span class="s1">player</span><span class="s2">.</span><span class="s1">destroyed</span><span class="s2">;</span>
+		<span class="s0">if</span><span class="s2">(</span><span class="s1">RAND</span><span class="s2">.</span><span class="s1">nextInt</span><span class="s2">(</span><span class="s4">10</span><span class="s2">) &gt; </span><span class="s4">2</span><span class="s2">) {</span>
+			<span class="s1">univ</span><span class="s2">.</span><span class="s1">add</span><span class="s2">(</span><span class="s0">new </span><span class="s1">Universe</span><span class="s2">());</span>
+		<span class="s2">}</span>
+		<span class="s0">for </span><span class="s2">(</span><span class="s0">int </span><span class="s1">i </span><span class="s2">= </span><span class="s4">0</span><span class="s2">; </span><span class="s1">i </span><span class="s2">&lt; </span><span class="s1">univ</span><span class="s2">.</span><span class="s1">size</span><span class="s2">(); </span><span class="s1">i</span><span class="s2">++) {</span>
+			<span class="s0">if</span><span class="s2">(</span><span class="s1">univ</span><span class="s2">.</span><span class="s1">get</span><span class="s2">(</span><span class="s1">i</span><span class="s2">).</span><span class="s1">posY </span><span class="s2">&gt; </span><span class="s1">HEIGHT</span><span class="s2">)</span>
+				<span class="s1">univ</span><span class="s2">.</span><span class="s1">remove</span><span class="s2">(</span><span class="s1">i</span><span class="s2">);</span>
+		<span class="s2">}</span>
+	<span class="s2">}</span>
+	
+	<span class="s0">private </span><span class="s1">Bomb newBomb</span><span class="s2">() {</span>
+		<span class="s0">return new </span><span class="s1">Bomb</span><span class="s2">(</span><span class="s4">50 </span><span class="s2">+ </span><span class="s1">RAND</span><span class="s2">.</span><span class="s1">nextInt</span><span class="s2">(</span><span class="s1">WIDTH </span><span class="s2">- </span><span class="s4">100</span><span class="s2">), </span><span class="s4">0</span><span class="s2">, </span><span class="s1">PLAYER_SIZE</span><span class="s2">, </span><span class="s1">RAND</span><span class="s2">.</span><span class="s1">nextInt</span><span class="s2">(</span><span class="s1">BOMBS_IMG</span><span class="s2">.</span><span class="s1">length</span><span class="s2">));</span>
+	<span class="s2">}</span>
+	
+	<span class="s0">static int </span><span class="s1">distance</span><span class="s2">(</span><span class="s0">int </span><span class="s1">x1</span><span class="s2">, </span><span class="s0">int </span><span class="s1">y1</span><span class="s2">, </span><span class="s0">int </span><span class="s1">x2</span><span class="s2">, </span><span class="s0">int </span><span class="s1">y2</span><span class="s2">) {</span>
+		<span class="s0">return </span><span class="s2">(</span><span class="s0">int</span><span class="s2">) </span><span class="s1">Math</span><span class="s2">.</span><span class="s1">sqrt</span><span class="s2">(</span><span class="s1">Math</span><span class="s2">.</span><span class="s1">pow</span><span class="s2">((</span><span class="s1">x1 </span><span class="s2">- </span><span class="s1">x2</span><span class="s2">), </span><span class="s4">2</span><span class="s2">) + </span><span class="s1">Math</span><span class="s2">.</span><span class="s1">pow</span><span class="s2">((</span><span class="s1">y1 </span><span class="s2">- </span><span class="s1">y2</span><span class="s2">), </span><span class="s4">2</span><span class="s2">));</span>
+	<span class="s2">}</span>
+	
+	<span class="s0">public static void </span><span class="s1">main</span><span class="s2">(</span><span class="s1">String</span><span class="s2">[] </span><span class="s1">args</span><span class="s2">) {</span>
+		<span class="s1">launch</span><span class="s2">();</span>
+	<span class="s2">}</span>
+<span class="s2">}</span>
+</pre>
+</body>
+</html>
