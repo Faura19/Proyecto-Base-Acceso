@@ -6,11 +6,12 @@ import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import java.io.File;
+import java.io.Serializable;
 
 import static com.spaceinvaders.spaceinvaders.SpaceInvaders.*;
 
 // Player
-public class Rocket {
+public class Rocket implements Serializable {
     int score;
     int posX, posY, size;
     boolean exploding, destroyed;
@@ -35,9 +36,6 @@ public class Rocket {
             Clip clip = AudioSystem.getClip();
             clip.open(audioStream);
             clip.start();  // Reproducir el sonido de explosión
-
-
-
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -9,9 +9,10 @@ import javafx.scene.layout.StackPane;
 import javax.sound.sampled.*;
 import java.io.File;
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.concurrent.ScheduledExecutorService;
 
-public class HiloMusical implements Runnable{
+public class HiloMusical implements Runnable, Serializable {
 
     private Clip clip;
     private String rutaCancion1;
@@ -35,13 +36,10 @@ public class HiloMusical implements Runnable{
     @Override
     public void run() {
 
-
-
     }
 
     public void reproducirMusica(String rutaCancion1,String rutaCancion2) {
 
-        musica=true;
         Thread musicThread = new Thread(() -> {
             while (musica) {
 

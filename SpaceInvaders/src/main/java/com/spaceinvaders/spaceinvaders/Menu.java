@@ -4,23 +4,66 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.ListView;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import org.w3c.dom.Node;
 
+import java.io.Serializable;
+import java.util.List;
+
 import static com.spaceinvaders.spaceinvaders.SpaceInvaders.gc;
 import static java.awt.SystemColor.menu;
 
-public class Menu {
+public class Menu implements Serializable {
 
-    private HiloMusical hiloMusical;
     public boolean pararMusica;
+    @FXML
+    private ListView<String> listPartidas;
     private SpaceInvaders mainApp;
     private Timeline timeline;
 
-    public void guardarAction(ActionEvent actionEvent) {
+    @FXML
+    public void initialize(ActionEvent actionEvent) {
 
+
+    }
+
+    public void guardarAction(ActionEvent actionEvent) {
+        SpaceInvaders.getInstancia().guardarEstadoJuego();
+    }
+
+    public void guardarAction2(ActionEvent actionEvent) {
+        SpaceInvaders.getInstancia().guardarEstadoJuego2();
+    }
+
+    public void guardarAction3(ActionEvent actionEvent) {
+        SpaceInvaders.getInstancia().guardarEstadoJuego3();
+    }
+
+    public void cargarAction(ActionEvent actionEvent){
+        // Cargar el estado de juego correspondiente a la partida seleccionada
+        SpaceInvaders.getInstancia().cargarEstadoJuego();
+    }
+
+    public void cargarAction2(ActionEvent actionEvent){
+        // Cargar el estado de juego correspondiente a la partida seleccionada
+        SpaceInvaders.getInstancia().cargarEstadoJuego2();
+    }
+
+    public void cargarAction3(ActionEvent actionEvent){
+        // Cargar el estado de juego correspondiente a la partida seleccionada
+        SpaceInvaders.getInstancia().cargarEstadoJuego3();
+    }
+
+    public void partidasAction(ActionEvent actionEvent){
+
+    }
+
+    public void musicaAction(ActionEvent actionEvent){
+        SpaceInvaders.getInstancia().quitarMusica();
     }
 
     public void continuarAction(ActionEvent actionEvent) {
@@ -34,19 +77,12 @@ public class Menu {
         stage.close();
         SpaceInvaders.getInstancia().juegoReanudado();
 
-
-
-
         //SpaceInvaders.sh
-
 
         /*
         SpaceInvaders spaceInvaders=new SpaceInvaders();
         spaceInvaders.resumeGame();
          */
-    }
-
-    private void run(GraphicsContext gc) {
     }
 
     public void salirAction(ActionEvent actionEvent) {

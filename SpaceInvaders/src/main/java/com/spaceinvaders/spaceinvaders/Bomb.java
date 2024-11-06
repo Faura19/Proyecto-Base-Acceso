@@ -4,11 +4,12 @@ import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import java.io.File;
+import java.io.Serializable;
 
 import static com.spaceinvaders.spaceinvaders.SpaceInvaders.*;
 
 // Enemy
-public class Bomb extends Rocket {
+public class Bomb extends Rocket implements Serializable {
     int SPEED = (score/5)+2;
 
     public Bomb(int posX, int posY, int size, int imgIndex) {

@@ -1,6 +1,7 @@
 package com.spaceinvaders.spaceinvaders;
 
-import java.io.IOException;
+import java.io.*;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -25,13 +26,14 @@ import javafx.util.Duration;
 
 import javax.sound.sampled.Clip;
 
-public class SpaceInvaders extends Application {
+public class SpaceInvaders extends Application implements Serializable{
 
 	private Clip clip;
 	private HiloMusical hiloMusical;
 
 	private static SpaceInvaders instancia;
 	private boolean juegoPausado;
+	private List<String> partidasListView;
 
 	public SpaceInvaders(){
 		instancia=this;
@@ -41,8 +43,9 @@ public class SpaceInvaders extends Application {
 		return instancia;
 	}
 
-	public void juegoPausado(){
+	public void juegoParado(){
 		juegoPausado=true;
+
 	}
 
 	public void juegoReanudado(){
@@ -64,7 +67,7 @@ public class SpaceInvaders extends Application {
 	static final int EXPLOSION_H = 128;
 	static final int EXPLOSION_STEPS = 15;
 	static GraphicsContext gc;
-	
+
 	static final Image BOMBS_IMG[] = {
 			new Image("file:images/1.png"),
 			new Image("file:images/2.png"),
@@ -84,7 +87,7 @@ public class SpaceInvaders extends Application {
 	List<Shot> shots;
 	List<Universe> univ;
 	List<Bomb> Bombs;
-	
+
 	private double mouseX;
 	private Stage mainStage;
 	private StackPane rootPane;
@@ -128,7 +131,6 @@ public class SpaceInvaders extends Application {
 		setup();
 
 
-
 		Scene scene=new Scene(new StackPane(canvas));
 		scene.setOnKeyPressed(event->{
 			if(event.getCode()==KeyCode.X){
@@ -142,36 +144,38 @@ public class SpaceInvaders extends Application {
 				timeline.play();
 				hiloMusical.reproducirMusica(cancion1,cancion2);
 
-			} else if(event.getCode()==KeyCode.SPACE){
+			} else if(event.getCode()==KeyCode.ESCAPE){
 
 				try {
-						FXMLLoader loader=new FXMLLoader(getClass().getResource("menu.fxml"));
-						Stage menuRoot=new Stage();
+					FXMLLoader loader=new FXMLLoader(getClass().getResource("menu.fxml"));
+					Stage menuRoot=new Stage();
 
-						Scene rootPane=new Scene(loader.load());
+					Scene rootPane=new Scene(loader.load());
 
-						//juegoPausado();
+					juegoParado();
+					timeline.pause();
+					//hiloMusical.detenerMusica();
+					menuRoot.setScene(rootPane);
+					menuRoot.show();
+					timeline.play();
+
+					Menu menu=new Menu();
+
+
+					//menu.continuarAction(timeline.play());
+
+					if (menu.pararMusica==true){
 						hiloMusical.detenerMusica();
-						menuRoot.setScene(rootPane);
-						menuRoot.show();
+					}
 
-						Menu menu=new Menu();
-
-
-						//menu.continuarAction(timeline.play());
-
-						if (menu.pararMusica==true){
+					Bombs.stream().peek(Rocket::update).peek(Rocket::draw).forEach(e -> {
+						if(player.colide(e) && !player.exploding) {
 							hiloMusical.detenerMusica();
 						}
-
-						Bombs.stream().peek(Rocket::update).peek(Rocket::draw).forEach(e -> {
-							if(player.colide(e) && !player.exploding) {
-								hiloMusical.detenerMusica();
-							}
-						});
+					});
 				}catch (IOException e) {
-						throw new RuntimeException(e);
-					}
+					throw new RuntimeException(e);
+				}
 			}
 		});
 
@@ -179,6 +183,102 @@ public class SpaceInvaders extends Application {
 		stage.setTitle("Space Invaders");
 		stage.show();
 	}
+
+	public void quitarMusica(){
+		hiloMusical.detenerMusica();
+	}
+
+	public void guardarEstadoJuego() {
+		try (FileOutputStream ruta = new FileOutputStream("src/savegame.dat");
+			 ObjectOutputStream object = new ObjectOutputStream(ruta)) {
+
+			object.writeObject(player);
+			object.writeObject(shots);
+			object.writeObject(Bombs);
+
+			System.out.println("Partida guardada " + "src/savegame.dat");
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void guardarEstadoJuego2() {
+		try (FileOutputStream ruta = new FileOutputStream("src/savedgame2.dat");
+			 ObjectOutputStream object = new ObjectOutputStream(ruta)) {
+
+			object.writeObject(player);
+			object.writeObject(shots);
+			object.writeObject(Bombs);
+
+			System.out.println("Partida guardada " + "src/savegame.dat");
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void guardarEstadoJuego3() {
+		try (FileOutputStream ruta = new FileOutputStream("src/savedgame3.dat");
+			 ObjectOutputStream object = new ObjectOutputStream(ruta)) {
+
+			object.writeObject(player);
+			object.writeObject(shots);
+			object.writeObject(Bombs);
+
+			System.out.println("Partida guardada " + "src/savegame.dat");
+
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void cargarEstadoJuego() {
+		try (FileInputStream ruta = new FileInputStream("src/savegame.dat");
+			 ObjectInputStream fichero = new ObjectInputStream(ruta)) {
+
+			player = (Rocket) fichero.readObject();
+			shots = (List<Shot>) fichero.readObject();
+			Bombs = (List<Bomb>) fichero.readObject();
+
+			System.out.println("El estado del juego ha sido cargado desde " + "src/savegame.dat");
+
+		} catch (IOException | ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void cargarEstadoJuego2() {
+		try (FileInputStream ruta = new FileInputStream("src/savedgame2.dat");
+			 ObjectInputStream fichero = new ObjectInputStream(ruta)) {
+
+			player = (Rocket) fichero.readObject();
+			shots = (List<Shot>) fichero.readObject();
+			Bombs = (List<Bomb>) fichero.readObject();
+
+			System.out.println("El estado del juego ha sido cargado desde " + "src/savegame.dat");
+
+		} catch (IOException | ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void cargarEstadoJuego3() {
+		try (FileInputStream ruta = new FileInputStream("src/savedgame3.dat");
+			 ObjectInputStream fichero = new ObjectInputStream(ruta)) {
+
+			player = (Rocket) fichero.readObject();
+			shots = (List<Shot>) fichero.readObject();
+			Bombs = (List<Bomb>) fichero.readObject();
+
+			System.out.println("El estado del juego ha sido cargado desde " + "src/savegame.dat");
+
+		} catch (IOException | ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
+
+
 
 	public void resumeGame() {
 		Timeline timeline = new Timeline(new KeyFrame(Duration.millis(100), e -> run(gc)));
@@ -229,7 +329,7 @@ public class SpaceInvaders extends Application {
         }
 		 */
 
-    }
+	}
 
 
 	// Run graphics
@@ -249,13 +349,13 @@ public class SpaceInvaders extends Application {
 			gc.setFont(Font.font(35));
 			gc.setFill(Color.YELLOW);
 			gc.fillText("Game Over \n Your Score is: " + player.score + " \n Click to play again", WIDTH / 2, HEIGHT /2.5);
-		//	return;
+			//	return;
 		}
 		univ.forEach(Universe::draw);
 		player.update();
 		player.draw();
 		player.posX = (int) mouseX;
-		
+
 		Bombs.stream().peek(Rocket::update).peek(Rocket::draw).forEach(e -> {
 			if(player.colide(e) && !player.exploding) {
 				player.explode();
@@ -265,10 +365,10 @@ public class SpaceInvaders extends Application {
 				rocket.muerteNave();
 			}
 		});
-		
+
 		for (int i = shots.size() - 1; i >=0 ; i--) {
 			Shot shot = shots.get(i);
-			if(shot.posY < 0 || shot.toRemove)  { 
+			if(shot.posY < 0 || shot.toRemove)  {
 				shots.remove(i);
 				continue;
 			}
@@ -282,13 +382,13 @@ public class SpaceInvaders extends Application {
 				}
 			}
 		}
-		
-		for (int i = Bombs.size() - 1; i >= 0; i--){  
+
+		for (int i = Bombs.size() - 1; i >= 0; i--){
 			if(Bombs.get(i).destroyed)  {
 				Bombs.set(i, newBomb());
 			}
 		}
-	
+
 		gameOver = player.destroyed;
 		if(RAND.nextInt(10) > 2) {
 			univ.add(new Universe());
@@ -298,15 +398,15 @@ public class SpaceInvaders extends Application {
 				univ.remove(i);
 		}
 	}
-	
+
 	private Bomb newBomb() {
 		return new Bomb(50 + RAND.nextInt(WIDTH - 100), 0, PLAYER_SIZE, RAND.nextInt(BOMBS_IMG.length));
 	}
-	
+
 	static int distance(int x1, int y1, int x2, int y2) {
 		return (int) Math.sqrt(Math.pow((x1 - x2), 2) + Math.pow((y1 - y2), 2));
 	}
-	
+
 	public static void main(String[] args) {
 		launch();
 	}

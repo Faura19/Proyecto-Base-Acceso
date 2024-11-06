@@ -18,9 +18,21 @@
 
         <Button text="Guardar" onAction="#guardarAction" prefWidth="200.0" prefHeight="50.0" style="-fx-font-size: 18px;" />
 
+        <Button text="Guardar 2" onAction="#guardarAction2" prefWidth="200.0" prefHeight="50.0" style="-fx-font-size: 18px;" />
+
+        <Button text="Guardar 3" onAction="#guardarAction3" prefWidth="200.0" prefHeight="50.0" style="-fx-font-size: 18px;" />
+
+        <CheckBox text="Quitar Musica" onAction="#musicaAction" prefWidth="200.0" prefHeight="50.0" style="-fx-font-size: 18px;"/>
+
+        <Button text="Cargar Partida" onAction="#cargarAction" prefWidth="200.0" prefHeight="50.0" style="-fx-font-size: 18px;"/>
+
+        <Button text="Cargar Partida 2" onAction="#cargarAction2" prefWidth="200.0" prefHeight="50.0" style="-fx-font-size: 18px;"/>
+
+        <Button text="Cargar Partida 3" onAction="#cargarAction3" prefWidth="200.0" prefHeight="50.0" style="-fx-font-size: 18px;"/>
+
         <Button text="Continuar" onAction="#continuarAction" prefWidth="200.0" prefHeight="50.0" style="-fx-font-size: 18px;"/>
 
-        <Button text="Salir del Juego" onAction="#salirAction" prefWidth="200.0" prefHeight="50.0" style="-fx-font-size: 18px;"/>
+        <Button text="Salir" onAction="#salirAction" prefWidth="200.0" prefHeight="50.0" style="-fx-font-size: 18px;"/>
 
     </VBox>
 
