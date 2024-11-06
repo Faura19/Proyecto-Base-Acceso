@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.spaceinvaders.spaceinvaders.Menu">
+
+    <VBox alignment="CENTER" prefWidth="400.0" spacing="20" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" xmlns:fx="http://javafx.com/fxml/1">
+
+        <Button onAction="#guardarAction" prefHeight="50.0" prefWidth="200.0" style="-fx-font-size: 18px;" text="Guardar" />
+
+
+        <CheckBox onAction="#musicaAction" prefHeight="50.0" prefWidth="200.0" style="-fx-font-size: 18px;" text="Quitar Musica" />
+
+        <Button onAction="#cargarAction" prefHeight="50.0" prefWidth="200.0" style="-fx-font-size: 18px;" text="Cargar Partida" />
+
+        <Button onAction="#continuarAction" prefHeight="50.0" prefWidth="200.0" style="-fx-font-size: 18px;" text="Continuar" />
+
+        <Button onAction="#salirAction" prefHeight="50.0" prefWidth="200.0" style="-fx-font-size: 18px;" text="Salir" />
+    </VBox>
+</AnchorPane>

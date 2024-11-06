@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/17.0.2-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.spaceinvaders.spaceinvaders.Menu">
+   <children>
+      <ListView layoutX="200.0" layoutY="91.0" prefHeight="200.0" prefWidth="200.0" />
+      <Button onAction="#partida1" layoutX="274.0" layoutY="103.0" mnemonicParsing="false" text="Partida 1" />
+      <Button onAction="#partida2" layoutX="274.0" layoutY="136.0" mnemonicParsing="false" text="Partida 2" />
+      <Button onAction="#partida3" layoutX="274.0" layoutY="166.0" mnemonicParsing="false" text="Partida 3" />
+      <Button onAction="#partida4" layoutX="274.0" layoutY="200.0" mnemonicParsing="false" text="Partida 4" />
+      <Button onAction="#partida5" layoutX="274.0" layoutY="234.0" mnemonicParsing="false" text="Partida 5" />
+   </children>
+</AnchorPane>
