@@ -15,6 +15,7 @@ import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.ToggleButton;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.StackPane;
@@ -35,6 +36,7 @@ public class SpaceInvaders extends Application implements Serializable{
 	private boolean juegoPausado;
 	private List<String> partidasListView;
 	private int contador;
+	private int botonMusica=0;
 
 	public SpaceInvaders(){
 		instancia=this;
@@ -225,6 +227,8 @@ public class SpaceInvaders extends Application implements Serializable{
 
 			System.out.println("El estado del juego ha sido cargado desde " + "src/savegame.dat");
 
+		} catch (EOFException ee){
+			System.out.println("No tienes esa partida guardada");
 		} catch (IOException | ClassNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -242,6 +246,8 @@ public class SpaceInvaders extends Application implements Serializable{
 
 			System.out.println("El estado del juego ha sido cargado desde " + "src/savegame.dat");
 
+		} catch (EOFException ee){
+			System.out.println("No tienes esa partida guardada");
 		} catch (IOException | ClassNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -260,6 +266,8 @@ public class SpaceInvaders extends Application implements Serializable{
 
 			System.out.println("El estado del juego ha sido cargado desde " + "src/savegame.dat");
 
+		} catch (EOFException ee){
+			System.out.println("No tienes esa partida guardada");
 		} catch (IOException | ClassNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -278,6 +286,8 @@ public class SpaceInvaders extends Application implements Serializable{
 
 			System.out.println("El estado del juego ha sido cargado desde " + "src/savegame.dat");
 
+		}catch (EOFException ee){
+			System.out.println("No tienes esa partida guardada");
 		} catch (IOException | ClassNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -296,6 +306,8 @@ public class SpaceInvaders extends Application implements Serializable{
 
 			System.out.println("El estado del juego ha sido cargado desde " + "src/savegame.dat");
 
+		}catch (EOFException ee){
+			System.out.println("No tienes esa partida guardada");
 		} catch (IOException | ClassNotFoundException e) {
 			e.printStackTrace();
 		}

@@ -3,6 +3,8 @@ package com.spaceinvaders.spaceinvaders;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -11,9 +13,12 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import javafx.scene.control.TextField;
 import javafx.util.Duration;
 import org.w3c.dom.Node;
 
+import java.awt.*;
+import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.List;
@@ -26,19 +31,45 @@ public class Menu implements Serializable {
     public boolean pararMusica;
     @FXML
     private ListView<String> listPartidas;
-    private SpaceInvaders mainApp;
-    private Timeline timeline;
+
+    @FXML
+    public TextField nombrePartida;
+
+    private ObservableList<String> partidasObservable = FXCollections.observableArrayList();
 
     @FXML
     public void initialize(ActionEvent actionEvent) {
-
+        listPartidas.setItems(partidasObservable);
     }
 
 
     public void guardarAction(ActionEvent actionEvent) {
+        try{
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("guardar.fxml"));
+            AnchorPane secondPage = loader.load();
+
+            Stage stage2 = (Stage) ((javafx.scene.Node) actionEvent.getSource()).getScene().getWindow();
+
+            Scene scene = new Scene(secondPage);
+            stage2.setScene(scene);
+            stage2.show();
+
+
+        }catch (RuntimeException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void guardarNombre(ActionEvent actionEvent){
+
         Stage stage=(Stage) ((javafx.scene.Node) actionEvent.getSource()).getScene().getWindow();
         stage.close();
         SpaceInvaders.getInstancia().guardarEstadoJuego();
+
+        System.out.println(nombrePartida.getText());
+
     }
 
     public void partida1(ActionEvent actionEvent){
@@ -76,13 +107,14 @@ public class Menu implements Serializable {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("partidas.fxml"));
             AnchorPane secondPage = loader.load();
 
-            // Obtener el Stage actual
             Stage stage2 = (Stage) ((javafx.scene.Node) actionEvent.getSource()).getScene().getWindow();
 
             Scene scene = new Scene(secondPage);
-            // Establecer la nueva escena en el Stage
             stage2.setScene(scene);
             stage2.show();
+
+            loadFileNames();
+
         }catch (RuntimeException e) {
             throw new RuntimeException(e);
         } catch (IOException e) {
@@ -93,7 +125,6 @@ public class Menu implements Serializable {
     public void cargarAction2(ActionEvent actionEvent){
         Stage stage=(Stage) ((javafx.scene.Node) actionEvent.getSource()).getScene().getWindow();
         stage.close();
-        // Cargar el estado de juego correspondiente a la partida seleccionada
         SpaceInvaders.getInstancia().cargarEstadoJuego2();
     }
 
@@ -132,7 +163,6 @@ public class Menu implements Serializable {
     }
 
     public void salirAction(ActionEvent actionEvent) {
-
         try{
             /*
             String cancion1="src/clip-1-muzica-pentru-reclame-" +
@@ -162,6 +192,28 @@ public class Menu implements Serializable {
 
         }catch (Exception e){
             e.printStackTrace();
+        }
+    }
+
+    private void loadFileNames() {
+        listPartidas=new ListView<>();
+
+        File directory = new File("src/guardados/");
+        if (directory.exists() && directory.isDirectory()) {
+            File[] files = directory.listFiles();
+            if (files != null) {
+                int count = 0;
+                for (File file : files) {
+                    if (file.isFile() && file.getName().endsWith(".dat")) {
+                        if (count < 5) {
+                            listPartidas.getItems().add(file.getName());
+                            count++;
+                        } else {
+                            break;
+                        }
+                    }
+                }
+            }
         }
     }
 
