@@ -163,6 +163,25 @@ public class SpaceInvaders extends Application implements Serializable{
 					Menu menu=new Menu();
 
 
+					if (rootPane.getWindow()!=null){
+						timeline.pause();
+					}
+
+					// Sirve para reanudar el menu una vez haya parado
+					menuRoot.setOnHidden(event2 -> {
+						if (timeline != null) {
+							timeline.play();
+						}
+					});
+
+
+					/*
+					if (timeline!=null){
+						timeline.play();
+					}
+					 */
+
+
 					//menu.continuarAction(timeline.play());
 
 					if (menu.pararMusica==true){
@@ -180,6 +199,7 @@ public class SpaceInvaders extends Application implements Serializable{
 			}
 		});
 
+
 		stage.setScene(scene);
 		stage.setTitle("Space Invaders");
 		stage.show();
@@ -187,6 +207,16 @@ public class SpaceInvaders extends Application implements Serializable{
 
 	public void quitarMusica(){
 		hiloMusical.detenerMusica();
+	}
+
+	public void ponerMusica(){
+		String cancion1="src/clip-1-muzica-pentru-reclame-" +
+				"film-calitate-24-biti-fisier" +
+				"-audio-wav-viteza-124-bpm-durata-105-min-90.wav";
+
+		String cancion2="src/clip-2-muzica-pentru-reclama-film-24-biti-wav-120-bpm-9013.wav";
+
+		hiloMusical.reproducirMusica(cancion1,cancion2);
 	}
 
 	public void guardarEstadoJuego() {

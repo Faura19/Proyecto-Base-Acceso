@@ -1,27 +1,20 @@
 package com.spaceinvaders.spaceinvaders;
 
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
-import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.ListView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import javafx.scene.control.TextField;
-import javafx.util.Duration;
-import org.w3c.dom.Node;
 
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
 import java.io.Serializable;
-import java.util.List;
 
 import static com.spaceinvaders.spaceinvaders.SpaceInvaders.gc;
 import static java.awt.SystemColor.menu;
@@ -30,10 +23,12 @@ public class Menu implements Serializable {
 
     public boolean pararMusica;
     @FXML
-    private ListView<String> listPartidas;
+    public TextField nombrePartida;
+    @FXML
+    public Checkbox musicaBoton;
 
     @FXML
-    public TextField nombrePartida;
+    private ListView<String> listPartidas=new ListView<String>((ObservableList<String>) nombrePartida);
 
     private ObservableList<String> partidasObservable = FXCollections.observableArrayList();
 
@@ -68,8 +63,22 @@ public class Menu implements Serializable {
         stage.close();
         SpaceInvaders.getInstancia().guardarEstadoJuego();
 
-        System.out.println(nombrePartida.getText());
 
+
+        partidasObservable = FXCollections.observableArrayList(
+                "Julia", "Ian", "Sue", "Matthew", "Hannah", "Stephan", "Denise");
+        listPartidas= new ListView<String>(partidasObservable);
+
+
+        if (!nombrePartida.getText().isEmpty()) {
+            // Añadir el nombre a la lista observable
+            partidasObservable.add(nombrePartida.getText());
+        }
+
+
+        listPartidas.getItems().add(String.valueOf(partidasObservable));
+
+        System.out.println(nombrePartida.getText());
     }
 
     public void partida1(ActionEvent actionEvent){
@@ -140,7 +149,14 @@ public class Menu implements Serializable {
     }
 
     public void musicaAction(ActionEvent actionEvent){
-        SpaceInvaders.getInstancia().quitarMusica();
+
+        if (musicaBoton.getState()){
+            SpaceInvaders.getInstancia().quitarMusica();
+        }else{
+            System.out.println("Jorge");
+        }
+
+
     }
 
     public void continuarAction(ActionEvent actionEvent) {

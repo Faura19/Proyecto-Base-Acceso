@@ -110,7 +110,6 @@ public class HiloMusical implements Runnable{
         musica=false;
         if (clip.isRunning()){
             clip.stop();
-            clip.close();
         }
     }
 }

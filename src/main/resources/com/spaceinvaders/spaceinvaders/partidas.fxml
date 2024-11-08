@@ -7,8 +7,7 @@
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="com.spaceinvaders.spaceinvaders.Menu">
    <children>
-      <ListView fx:id="listPartidas" layoutX="200.0" layoutY="91.0" prefHeight="200.0" prefWidth="200.0"/>
-
+      <ListView fx:id="listPartidas" layoutX="200.0" layoutY="91.0" prefHeight="200.0" prefWidth="200.0" />
 
 
    </children>

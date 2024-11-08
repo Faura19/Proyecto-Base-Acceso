@@ -10,7 +10,7 @@
 
         <Button onAction="#guardarAction" prefHeight="50.0" prefWidth="200.0" style="-fx-font-size: 18px;" text="Guardar" />
 
-        <CheckBox onAction="#musicaAction" mnemonicParsing="false" text="CheckBox" />
+        <CheckBox fx:id="musicaBoton" onAction="#musicaAction" mnemonicParsing="false" text="Musica" />
 
         <Button onAction="#cargarAction" prefHeight="50.0" prefWidth="200.0" style="-fx-font-size: 18px;" text="Cargar Partida" />
 
