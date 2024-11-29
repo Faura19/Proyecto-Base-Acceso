@@ -34,6 +34,8 @@ public class SpaceInvaders extends Application implements Serializable{
 	private static SpaceInvaders instancia;
 	private boolean juegoPausado;
 	private List<String> partidasListView;
+	private int contador;
+	private int botonMusica=0;
 
 	public SpaceInvaders(){
 		instancia=this;
@@ -96,20 +98,17 @@ public class SpaceInvaders extends Application implements Serializable{
 	public void start(Stage stage) throws Exception {
 		this.mainStage=stage;
 
-		String cancion1="src/clip-1-muzica-pentru-reclame-" +
-				"film-calitate-24-biti-fisier" +
-				"-audio-wav-viteza-124-bpm-durata-105-min-90.wav";
+		String cancion1="src/clip-1-muzica-pentru-reclame-film-calitate-24-biti-fisier-audio-wav-viteza-124-bpm-durata-105-min-90 (mp3cut.net).wav";
 
-		String cancion2="src/clip-2-muzica-pentru-reclama-film-24-biti-wav-120-bpm-9013.wav";
+		String cancion2="src/clip-2-muzica-pentru-reclama-film-24-biti-wav-120-bpm-9013 (mp3cut.net).wav";
 
-		HiloMusical hiloMusical=new HiloMusical(cancion1,cancion2);
+		hiloMusical=new HiloMusical(cancion1,cancion2);
 		hiloMusical.reproducirMusica(cancion1,cancion2);
 
 
 		// Este metodo sirve para que al cerrar el javafx la musica pare
 		stage.setOnCloseRequest(event -> {
 			hiloMusical.detenerMusica();
-			Platform.exit();
 			System.exit(0);
 		});
 
@@ -142,9 +141,13 @@ public class SpaceInvaders extends Application implements Serializable{
 
 			} else if (event.getCode()==KeyCode.O) {
 				timeline.play();
-				hiloMusical.reproducirMusica(cancion1,cancion2);
+                try {
+                    hiloMusical.reproducirMusica(cancion1,cancion2);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
 
-			} else if(event.getCode()==KeyCode.ESCAPE){
+            } else if(event.getCode()==KeyCode.ESCAPE){
 
 				try {
 					FXMLLoader loader=new FXMLLoader(getClass().getResource("menu.fxml"));
@@ -153,13 +156,30 @@ public class SpaceInvaders extends Application implements Serializable{
 					Scene rootPane=new Scene(loader.load());
 
 					juegoParado();
-					timeline.pause();
 					//hiloMusical.detenerMusica();
 					menuRoot.setScene(rootPane);
 					menuRoot.show();
-					timeline.play();
 
 					Menu menu=new Menu();
+
+
+					if (rootPane.getWindow()!=null){
+						timeline.pause();
+					}
+
+					// Sirve para reanudar el menu una vez haya parado
+					menuRoot.setOnHidden(event2 -> {
+						if (timeline != null) {
+							timeline.play();
+						}
+					});
+
+
+					/*
+					if (timeline!=null){
+						timeline.play();
+					}
+					 */
 
 
 					//menu.continuarAction(timeline.play());
@@ -179,6 +199,7 @@ public class SpaceInvaders extends Application implements Serializable{
 			}
 		});
 
+
 		stage.setScene(scene);
 		stage.setTitle("Space Invaders");
 		stage.show();
@@ -188,49 +209,39 @@ public class SpaceInvaders extends Application implements Serializable{
 		hiloMusical.detenerMusica();
 	}
 
+	public void ponerMusica() throws InterruptedException {
+		String cancion1="src/clip-1-muzica-pentru-reclame-film-calitate-24-biti-fisier-audio-wav-viteza-124-bpm-durata-105-min-90 (mp3cut.net).wav";
+
+		String cancion2="src/clip-2-muzica-pentru-reclama-film-24-biti-wav-120-bpm-9013 (mp3cut.net).wav";
+
+		hiloMusical.reproducirMusica(cancion1,cancion2);
+	}
+
 	public void guardarEstadoJuego() {
-		try (FileOutputStream ruta = new FileOutputStream("src/savegame.dat");
-			 ObjectOutputStream object = new ObjectOutputStream(ruta)) {
+		String[] rutas= {"src/savegame.dat","src/savedgame2.dat","src/savedgame3.dat",
+				"src/savedgame4.dat","savedgame5.dat"};
 
-			object.writeObject(player);
-			object.writeObject(shots);
-			object.writeObject(Bombs);
 
-			System.out.println("Partida guardada " + "src/savegame.dat");
+		if (contador<rutas.length){
+			try (FileOutputStream ruta = new FileOutputStream(rutas[contador]);
+				 ObjectOutputStream object = new ObjectOutputStream(ruta)) {
 
-		} catch (IOException e) {
-			e.printStackTrace();
+				object.writeObject(player);
+				object.writeObject(shots);
+				object.writeObject(Bombs);
+				object.writeObject(univ);
+
+				contador++;
+				System.out.println("Partida" + contador);
+
+
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}else{
+			System.out.println("No se pueden guardar mas partidas");
 		}
-	}
-
-	public void guardarEstadoJuego2() {
-		try (FileOutputStream ruta = new FileOutputStream("src/savedgame2.dat");
-			 ObjectOutputStream object = new ObjectOutputStream(ruta)) {
-
-			object.writeObject(player);
-			object.writeObject(shots);
-			object.writeObject(Bombs);
-
-			System.out.println("Partida guardada " + "src/savegame.dat");
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-	}
-
-	public void guardarEstadoJuego3() {
-		try (FileOutputStream ruta = new FileOutputStream("src/savedgame3.dat");
-			 ObjectOutputStream object = new ObjectOutputStream(ruta)) {
-
-			object.writeObject(player);
-			object.writeObject(shots);
-			object.writeObject(Bombs);
-
-			System.out.println("Partida guardada " + "src/savegame.dat");
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
+		juegoParado();
 	}
 
 	public void cargarEstadoJuego() {
@@ -240,12 +251,16 @@ public class SpaceInvaders extends Application implements Serializable{
 			player = (Rocket) fichero.readObject();
 			shots = (List<Shot>) fichero.readObject();
 			Bombs = (List<Bomb>) fichero.readObject();
+			univ= (List<Universe>) fichero.readObject();
 
 			System.out.println("El estado del juego ha sido cargado desde " + "src/savegame.dat");
 
+		} catch (EOFException ee){
+			System.out.println("No tienes esa partida guardada");
 		} catch (IOException | ClassNotFoundException e) {
 			e.printStackTrace();
 		}
+		juegoReanudado();
 	}
 
 	public void cargarEstadoJuego2() {
@@ -255,12 +270,17 @@ public class SpaceInvaders extends Application implements Serializable{
 			player = (Rocket) fichero.readObject();
 			shots = (List<Shot>) fichero.readObject();
 			Bombs = (List<Bomb>) fichero.readObject();
+			univ= (List<Universe>) fichero.readObject();
 
 			System.out.println("El estado del juego ha sido cargado desde " + "src/savegame.dat");
 
+		} catch (EOFException ee){
+			System.out.println("No tienes esa partida guardada");
 		} catch (IOException | ClassNotFoundException e) {
 			e.printStackTrace();
 		}
+
+		juegoReanudado();
 	}
 
 	public void cargarEstadoJuego3() {
@@ -270,14 +290,58 @@ public class SpaceInvaders extends Application implements Serializable{
 			player = (Rocket) fichero.readObject();
 			shots = (List<Shot>) fichero.readObject();
 			Bombs = (List<Bomb>) fichero.readObject();
+			univ= (List<Universe>) fichero.readObject();
 
 			System.out.println("El estado del juego ha sido cargado desde " + "src/savegame.dat");
 
+		} catch (EOFException ee){
+			System.out.println("No tienes esa partida guardada");
 		} catch (IOException | ClassNotFoundException e) {
 			e.printStackTrace();
 		}
+
+		juegoReanudado();
 	}
 
+	public void cargarEstadoJuego4() {
+		try (FileInputStream ruta = new FileInputStream("src/savedgame4.dat");
+			 ObjectInputStream fichero = new ObjectInputStream(ruta)) {
+
+			player = (Rocket) fichero.readObject();
+			shots = (List<Shot>) fichero.readObject();
+			Bombs = (List<Bomb>) fichero.readObject();
+			univ= (List<Universe>) fichero.readObject();
+
+			System.out.println("El estado del juego ha sido cargado desde " + "src/savegame.dat");
+
+		}catch (EOFException ee){
+			System.out.println("No tienes esa partida guardada");
+		} catch (IOException | ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+
+		juegoReanudado();
+	}
+
+	public void cargarEstadoJuego5() {
+		try (FileInputStream ruta = new FileInputStream("src/savedgame5.dat");
+			 ObjectInputStream fichero = new ObjectInputStream(ruta)) {
+
+			player = (Rocket) fichero.readObject();
+			shots = (List<Shot>) fichero.readObject();
+			Bombs = (List<Bomb>) fichero.readObject();
+			univ= (List<Universe>) fichero.readObject();
+
+			System.out.println("El estado del juego ha sido cargado desde " + "src/savegame.dat");
+
+		}catch (EOFException ee){
+			System.out.println("No tienes esa partida guardada");
+		} catch (IOException | ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+
+		juegoReanudado();
+	}
 
 
 	public void resumeGame() {
@@ -341,11 +405,10 @@ public class SpaceInvaders extends Application implements Serializable{
 		gc.setFill(Color.WHITE);
 		gc.fillText("Score: " + player.score, 60,  20);
 
-		String explosion="door-bang-1wav-14449.wav";
+		String explosion="mixkit-arcade-retro-game-over-213.wav";
 
 		if(gameOver) {
 			hiloMusical.explosionFinalizar(explosion);
-			hiloMusical.detenerMusica();
 			gc.setFont(Font.font(35));
 			gc.setFill(Color.YELLOW);
 			gc.fillText("Game Over \n Your Score is: " + player.score + " \n Click to play again", WIDTH / 2, HEIGHT /2.5);
